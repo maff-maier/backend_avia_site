@@ -3,34 +3,31 @@ package com.back.end.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.back.end.model.User;
-import com.back.end.service.UserService;
+import com.back.end.model.Ticket;
+import com.back.end.service.TicketService;
+
 
 @RestController
-@RequestMapping("/user")
-@CrossOrigin
-public class UserController {
-
+@RequestMapping("/ticket")
+public class TicketContoller {
+    
     @Autowired
-    private UserService userService;
+    private TicketService ticketService;
 
     @PostMapping("/add")
-    public String add(@RequestBody User user){
-        userService.addUser(user);
-        return "Success";
+    public String add(@RequestBody Ticket tk){
+        ticketService.addTick(tk);
+        return "Ticket was added successsfully";
     }
 
     @GetMapping("/getAll")
-    public List<User> getsAll(){
-        return userService.getAll();
+    public List<Ticket> getAll(){
+        return ticketService.getAll();
     }
-
-    
 }
