@@ -1,19 +1,22 @@
 package com.back.end.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.back.end.entity.User;
 
-@Entity
-public class User {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserModel {
+
     private int id;
     private String number;
 
-    public User() {
+    public static UserModel toModel(User user) {
+        UserModel model = new UserModel();
+        
+        model.setId(user.getUserId());
+        model.setNumber(user.getPass());
+        
+        return model;
+    }
+
+    public UserModel() {
     }
 
     public int getId() {
@@ -31,6 +34,5 @@ public class User {
     public void setNumber(String number) {
         this.number = number;
     }
-
 
 }
