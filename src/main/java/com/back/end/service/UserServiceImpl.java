@@ -50,5 +50,22 @@ public class UserServiceImpl implements UserService{
         repository.deleteById(id);
         return id;
     }
+
+    @Override
+    public User findUser(User user) {
+        if(repository.findByNumber(user.getNumber()) != null && repository.findByPass(user.getPass()) != null){
+            return user;
+        }
+
+        return null;
+    }
+
+    @Override
+    public UserModel getUserByNumber(String number) {
+        User user = repository.findByNumber(number);
+
+
+        return UserModel.toModel(user);
+    }
     
 }

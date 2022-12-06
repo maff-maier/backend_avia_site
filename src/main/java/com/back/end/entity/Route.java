@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,6 +17,9 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int routeId;
+
+    @ManyToOne
+    private Plane planeId;
 
     private String departure;
     private String arrival;
@@ -27,6 +31,14 @@ public class Route {
     private List<Orders> ordersCount = new ArrayList<Orders>();
 
     public Route() {
+    }
+    
+    public Plane getPlaneId() {
+        return planeId;
+    }
+
+    public void setPlaneId(Plane plane) {
+        this.planeId = plane;
     }
 
     public String getRouteCost() {

@@ -13,7 +13,11 @@ public interface UserService {
 
     public UserModel getUserById(int id) throws UserNotExistException;
 
+    public UserModel getUserByNumber(String number);
+
     public List<User> getAll();
 
     public Integer delete(int id);
+
+    public User findUser(User user);
 }

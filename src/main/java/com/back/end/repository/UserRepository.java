@@ -8,4 +8,6 @@ import com.back.end.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> { 
     User findByNumber(String number);
+
+    User findByPass(String pass);
 }

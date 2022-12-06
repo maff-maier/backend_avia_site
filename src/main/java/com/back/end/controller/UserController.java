@@ -1,5 +1,8 @@
 package com.back.end.controller;
 
+
+import java.util.List;
+
 //import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +30,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/getAll")
+    public List<User> getAll(){
+        return userService.getAll();
+    }
+    
+
     @PostMapping
     public ResponseEntity<String> add(@RequestBody User user) {
         try {
+            if(userService.findUser(user) != null){
+                return ResponseEntity.ok("User exists");
+            }
+
             userService.addUser(user);
             return ResponseEntity.ok("User was added successfully");
         } catch (UserAlreadyExistException e) {
@@ -38,10 +51,19 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getUserById(@RequestParam int id){
+    public ResponseEntity<String> getUserById(@RequestParam(required=false, name="id") int id){
         try{
             return ResponseEntity.ok(userService.getUserById(id).toString());
         } catch(UserNotExistException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/num")
+    public ResponseEntity<String> getUserByNumber(@RequestParam String number){
+        try{
+            return ResponseEntity.ok(userService.getUserByNumber(number).toString());
+        } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
