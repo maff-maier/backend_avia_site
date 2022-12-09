@@ -53,4 +53,9 @@ public class OrdersService {
         return stream.stream().map(Orders::toOrders).toList();
     }
 
+    public Long delete(Long id){
+        repo.deleteById(id);
+        return id;
+    }
+
 }

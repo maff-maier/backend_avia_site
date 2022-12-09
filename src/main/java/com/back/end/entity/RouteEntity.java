@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="routes")
@@ -30,7 +29,6 @@ public class RouteEntity {
 
     @ManyToOne
     @JoinColumn(name="plane_id")
-    //@JsonIgnore
     private PlaneEntity planeId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")

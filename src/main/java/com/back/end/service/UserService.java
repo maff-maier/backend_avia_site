@@ -48,8 +48,4 @@ public class UserService {
         return stream.stream().map(User::toModel).collect(Collectors.toList());
     }
 
-    public Long delete(Long id){
-        repo.deleteById(id);
-        return id;
-    }
 }
