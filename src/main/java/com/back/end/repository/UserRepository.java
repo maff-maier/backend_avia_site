@@ -1,13 +1,9 @@
 package com.back.end.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-import com.back.end.entity.User;
+import com.back.end.entity.UserEntity;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> { 
-    User findByNumber(String number);
-
-    User findByPass(String pass);
+public interface UserRepository extends CrudRepository<UserEntity, Long>{
+    UserEntity findByNumber(String number);
 }

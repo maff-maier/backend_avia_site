@@ -9,31 +9,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.back.end.entity.RouteEntity;
-import com.back.end.service.RouteService;
+import com.back.end.entity.OrdersEntity;
+import com.back.end.service.OrdersService;
 
 @RestController
-@RequestMapping("/routes")
-public class RouteController {
-    
-    @Autowired
-    private RouteService service;
+@RequestMapping("/orders")
+public class OrdersController {
 
-    @PostMapping
-    public ResponseEntity<?> addRoute(@RequestBody RouteEntity route, @RequestParam Long planeId){
-        try {
-            return ResponseEntity.ok(service.addRoute(route, planeId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Problem route: " + e.getMessage());
-        }
-    }
+    @Autowired
+    private OrdersService service;
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(){
         try {
-            return ResponseEntity.ok(service.getAll());
+            return ResponseEntity.ok(service.findAll());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getCause());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @PostMapping
+    public ResponseEntity<?> addOrder(@RequestBody OrdersEntity order, @RequestParam Long id, @RequestParam Long routeId){
+        try {
+            return ResponseEntity.ok(service.addOrder(order, id, routeId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

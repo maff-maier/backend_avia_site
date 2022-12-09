@@ -1,6 +1,5 @@
 package com.back.end.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,18 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Route {
-
+@Table(name="routes")
+public class RouteEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int routeId;
-
-    @ManyToOne
-    private Plane planeId;
+    private Long id;
 
     private String departure;
     private String arrival;
@@ -27,34 +28,24 @@ public class Route {
     private String routeCost;
     private String qtyCount;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    private List<Orders> ordersCount = new ArrayList<Orders>();
+    @ManyToOne
+    @JoinColumn(name="plane_id")
+    //@JsonIgnore
+    private PlaneEntity planeId;
 
-    public Route() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
     
-    public Plane getPlaneId() {
-        return planeId;
+    private List<OrdersEntity> orders;
+
+    public RouteEntity() {
     }
 
-    public void setPlaneId(Plane plane) {
-        this.planeId = plane;
+    public Long getId() {
+        return id;
     }
 
-    public String getRouteCost() {
-        return routeCost;
-    }
-
-    public void setRouteCost(String routeCost) {
-        this.routeCost = routeCost;
-    }
-
-    public int getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(int routeId) {
-        this.routeId = routeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDeparture() {
@@ -81,6 +72,14 @@ public class Route {
         this.timestamp = timestamp;
     }
 
+    public String getRouteCost() {
+        return routeCost;
+    }
+
+    public void setRouteCost(String routeCost) {
+        this.routeCost = routeCost;
+    }
+
     public String getQtyCount() {
         return qtyCount;
     }
@@ -89,12 +88,19 @@ public class Route {
         this.qtyCount = qtyCount;
     }
 
-    public List<Orders> getOrdersCount() {
-        return ordersCount;
+    public PlaneEntity getPlaneId() {
+        return planeId;
     }
 
-    public void setOrdersCount(List<Orders> ordersCount) {
-        this.ordersCount = ordersCount;
+    public void setPlaneId(PlaneEntity planeId) {
+        this.planeId = planeId;
     }
 
+    public List<OrdersEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrdersEntity> orders) {
+        this.orders = orders;
+    }
 }

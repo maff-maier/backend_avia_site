@@ -1,6 +1,5 @@
 package com.back.end.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,29 +8,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class User {
+@Table(name = "user")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Long id;
 
     private String number;
     private String pass;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private List<Orders> orders = new ArrayList<Orders>();
+    private List<OrdersEntity> orders;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public int getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNumber() {
@@ -50,16 +51,12 @@ public class User {
         this.pass = pass;
     }
 
-    public List<Orders> getOrders() {
+    public List<OrdersEntity> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Orders> orders) {
+    public void setOrders(List<OrdersEntity> orders) {
         this.orders = orders;
-    }
-
-    public void addOrd(Orders ord){
-        orders.add(ord);
     }
 
 }

@@ -1,15 +1,17 @@
 package com.back.end.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import com.back.end.entity.Route;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface RouteRepository extends JpaRepository<Route, Integer> {
-    Route findByDeparture(String departure);
+import com.back.end.entity.RouteEntity;
 
-    Route findByArrival(String arrival);
+public interface RouteRepository extends CrudRepository<RouteEntity, Long>{
+    RouteEntity findByDeparture(String departure);
 
-    Route findByTimestamp(String timestamp);
+    RouteEntity findByArrival(String arrival);
+
+    RouteEntity findByTimestamp(String timestamp);
+
+    List<RouteEntity> findAllByArrival(String arrival);
 }

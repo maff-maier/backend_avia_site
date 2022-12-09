@@ -1,23 +1,55 @@
 package com.back.end.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-import com.back.end.entity.User;
-import com.back.end.exceptions.UserAlreadyExistException;
-import com.back.end.exceptions.UserNotExistException;
-import com.back.end.model.UserModel;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.back.end.entity.UserEntity;
+import com.back.end.model.User;
+import com.back.end.repository.UserRepository;
 
-public interface UserService {
-    public User addUser(User user) throws UserAlreadyExistException;
+@Service
+public class UserService {
 
-    public UserModel getUserById(int id) throws UserNotExistException;
+    @Autowired
+    private UserRepository repo;
+    
+    public User sign(UserEntity user) throws Exception{
+        if(repo.findByNumber(user.getNumber()) != null){
+            throw new Exception("Some error");
+        } 
+        return User.toModel(repo.save(user));
+    }
 
-    public UserModel getUserByNumber(String number);
+    public User getOneUser(Long id) throws Exception{
 
-    public List<User> getAll();
+        UserEntity user = repo.findById(id).get();
 
-    public Integer delete(int id);
+        if(user == null){
+            throw new Exception("No user with this ID");
+        }
 
-    public User findUser(User user);
+        return User.toModel(user);
+    }
+
+    public List<User> getAll(){
+        Iterable<UserEntity> pa = repo.findAll();
+
+        List<UserEntity> stream = StreamSupport.stream(pa.spliterator(), false)
+                                                .map(plane -> {
+                                                    UserEntity pl = new UserEntity();
+                                                    BeanUtils.copyProperties(plane, pl);
+                                                    return pl;
+                                                }).collect(Collectors.toList());
+        return stream.stream().map(User::toModel).collect(Collectors.toList());
+    }
+
+    public Long delete(Long id){
+        repo.deleteById(id);
+        return id;
+    }
 }
